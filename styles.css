@@ -41,8 +41,18 @@ body{
 .content-left{flex:1}
 .text-block{padding:0}
 
-.image-right{width:100%;margin-top:0}
-.placeholder-svg{width:100%;height:auto;display:block;border-radius:12px}
+.image-right{
+  width:100%;
+  margin-top:0;
+  /* container provides rounded corners and background so SVG doesn't need inline corner attrs */
+  border-radius:var(--radius);
+  overflow:hidden;
+  background:var(--card);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.placeholder-svg{width:100%;height:auto;display:block;border-radius:0}
 
 .app-placeholder h2{font-size:1.5rem}
 .app-placeholder p{color:var(--muted)}

@@ -16,16 +16,14 @@
 			<div class="app-placeholder">
 				<section class="content-left">
 					<div class="text-block">
-						<h2>Welcome</h2>
-						<p>This is a responsive starter container. Add your content inside the <code>#app</code> element. The layout places text on the left and an image on the right on wider screens.</p>
+						<h2 id="question-title">Welcome</h2>
+						<p id="question-text">This is a responsive starter container. Add your content inside the <code>#app</code> element. The layout places text on the left and an image on the right on wider screens.</p>
 					</div>
 				</section>
 				<aside class="image-right" aria-hidden="true">
-					<!-- Inline SVG placeholder so the page works offline. Replace with <img> or real media as needed. -->
-					<svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" class="placeholder-svg">
-						<rect width="100%" height="100%" fill="#0b1220" rx="12" />
-						<text x="50%" y="50%" fill="#94a3b8" font-size="24" text-anchor="middle" dominant-baseline="middle">Image Placeholder</text>
-					</svg>
+					<!-- SVG placeholder; background and rounded corners provided by the container via CSS -->
+                    <img id="question-image" src="placeholder-image.jpg" alt="Placeholder image" class="placeholder-image" />
+
 				</aside>
 			</div>
 
