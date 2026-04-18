@@ -146,6 +146,6 @@ function onUserInputEnter(userInput){
         goToNextQuestion();
     }
     else {
-        alert('Incorrect answer, please try again!');
+        alert('Falsche Antwort!heheha');
     }
 }
