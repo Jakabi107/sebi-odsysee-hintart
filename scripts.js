@@ -133,7 +133,7 @@ function checkAnswer(userAnswer){
 
 function goToNextQuestion(){
     if (question_progress >= questions.order.length - 1) {
-        alert('Gewonnen - Alles gute zum geburtstag! zum 18. würde ich dich gerne zu einem Essen einladen - einem besonderem - ähnlich wie deine lieblings mario odessey challange :)');
+        alert('Gewonnen - Alles gute zum geburtstag!');
         return;
     }
     question_progress++;
