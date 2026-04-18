@@ -52,6 +52,11 @@ body{
   align-items:center;
   justify-content:center;
 }
+.image-right img{
+    width:100%;
+    height:auto;
+    display:block;
+    }
 .placeholder-svg{width:100%;height:auto;display:block;border-radius:0}
 
 .app-placeholder h2{font-size:1.5rem}
