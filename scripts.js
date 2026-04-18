@@ -6,6 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Expose for quick debugging in the browser console
   window.App = window.App || {};
   window.App.root = app;
+  // Wire up the text input (if present)
+  const userInput = document.getElementById('user-input');
+  if(userInput){
+    window.App.userInput = userInput;
+    userInput.addEventListener('input', (e) => {
+      console.log('user-input:', e.target.value);
+    });
+  }
 
-  // Placeholder: you can initialize UI components here
+  // Placeholder: you can initialize other UI components here
 });

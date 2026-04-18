@@ -8,13 +8,30 @@
 	</head>
 	<body>
 		<header class="site-header">
-			<h1 class="">Odessey Hintart!</h1>
+			<h1 class="visually-hidden">Responsive Starter Page</h1>
 		</header>
+
 		<!-- Main app container: place further content here -->
 		<main id="app" class="container" role="main" aria-label="Main application container">
 			<div class="app-placeholder">
-				<h2>Welcome</h2>
-				<p>This is a responsive starter container. Add your content inside the <code>#app</code> element.</p>
+				<section class="content-left">
+					<div class="text-block">
+						<h2>Welcome</h2>
+						<p>This is a responsive starter container. Add your content inside the <code>#app</code> element. The layout places text on the left and an image on the right on wider screens.</p>
+					</div>
+				</section>
+				<aside class="image-right" aria-hidden="true">
+					<!-- Inline SVG placeholder so the page works offline. Replace with <img> or real media as needed. -->
+					<svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" class="placeholder-svg">
+						<rect width="100%" height="100%" fill="#0b1220" rx="12" />
+						<text x="50%" y="50%" fill="#94a3b8" font-size="24" text-anchor="middle" dominant-baseline="middle">Image Placeholder</text>
+					</svg>
+				</aside>
+			</div>
+
+			<div class="app-input">
+				<label for="user-input" class="visually-hidden">Your text input</label>
+				<input id="user-input" type="text" placeholder="Type something here..." />
 			</div>
 		</main>
 

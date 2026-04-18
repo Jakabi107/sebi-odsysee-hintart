@@ -38,8 +38,28 @@ body{
   align-items:flex-start;
 }
 
+.content-left{flex:1}
+.text-block{padding:0}
+
+.image-right{width:100%;margin-top:0}
+.placeholder-svg{width:100%;height:auto;display:block;border-radius:12px}
+
 .app-placeholder h2{font-size:1.5rem}
 .app-placeholder p{color:var(--muted)}
+
+/* Input area below the two-column content */
+.app-input{margin-top:1rem}
+.app-input input{
+  width:100%;
+  padding:0.75rem 1rem;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:rgba(255,255,255,0.02);
+  color:inherit;
+  outline:none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+}
+.app-input input::placeholder{color:var(--muted)}
 
 /* Utility: visually-hidden for accessible headings */
 .visually-hidden{
@@ -54,6 +74,8 @@ body{
 @media (min-width:640px){
   body{padding:3rem}
   .app-placeholder{flex-direction:row;align-items:center;justify-content:space-between}
+  .content-left{padding-right:1rem}
+  .image-right{flex:0 0 40%;max-width:420px;margin-left:1rem}
 }
 
 @media (min-width:1024px){
