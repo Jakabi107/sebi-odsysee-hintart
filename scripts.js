@@ -1,5 +1,5 @@
 const questions = {
-    "order":["puzzle", "bilderraten","pole", "music", "kaperung"],
+    "order":["hidden", "pole", "music", "bilderraten", "kaperung", "puzzle", "tanzen", "kryptographie", "boss",],
 
     "pole": {
         "title": "Speedrunknowledge",
