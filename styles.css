@@ -41,8 +41,9 @@ body{
   cursor:pointer;
   font-size:0.9rem;
 }
-.reset-btn:hover{ color:var(--accent); border-color:rgba(124,58,237,0.5) }
-.reset-btn:focus{ outline:2px solid rgba(124,58,237,0.25); box-shadow:0 0 0 4px rgba(124,58,237,0.06) }
+
+.purple-interact:hover{ color:var(--accent); border-color:rgba(124,58,237,0.5) }
+.purple-interact:focus{ outline:2px solid rgba(124,58,237,0.25); box-shadow:0 0 0 4px rgba(124,58,237,0.06) }
 
 .container{
   width:100%;
@@ -98,6 +99,8 @@ body{
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
 }
 .app-input input::placeholder{color:var(--muted)}
+
+#user-input:hover{color: inherit;}
 
 /* Utility: visually-hidden for accessible headings */
 .visually-hidden{
