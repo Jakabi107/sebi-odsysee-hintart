@@ -98,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  loadProgress();
   displayQuestion();
 });
 
@@ -137,6 +138,7 @@ function goToNextQuestion(){
         return;
     }
     question_progress++;
+    saveProgress();
     displayQuestion();
 }
 
@@ -149,3 +151,23 @@ function onUserInputEnter(userInput){
         alert('Falsche Antwort!heheha');
     }
 }
+
+
+// --- Progress Persistence ---
+function saveProgress(){
+    localStorage.setItem('question_progress', question_progress);
+}
+
+function loadProgress(){
+    const savedProgress = localStorage.getItem('question_progress');
+    if(savedProgress !== null){
+        question_progress = parseInt(savedProgress, 10);
+    }
+}
+
+function resetProgress(){
+    question_progress = 0;
+    saveProgress();
+    displayQuestion();
+}
+
