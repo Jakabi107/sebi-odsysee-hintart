@@ -1,6 +1,6 @@
 var questions = {}
 
-var questions_url = "https://raw.githubusercontent.com/Jakabi107/sebi-odsysee-hintart/outsource-questions/questions/sebiGeburtstag.json"
+var questions_url = ""
 
 var question_progress = 0;
 
@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    questions_url = urlInput.value;
     load();
 });
 
