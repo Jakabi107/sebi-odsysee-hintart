@@ -65,7 +65,7 @@ const questions = {
     }
 }
 
-var questions_url = "";
+var questions_url = "https://raw.githubusercontent.com/Jakabi107/sebi-odsysee-hintart/outsource-questions/questions/sebiGeburtstag.json"
 
 var question_progress = 0;
 
@@ -102,9 +102,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    loadProgress();
-    displayQuestion();
+    fetchQuestions()
 });
+
+
+function fetchQuestions(){
+    fetch(questions_url)
+        .then(response => response.json())
+        .then(data => {
+            Object.assign(questions, data);
+            displayQuestion();
+        })
+        .catch(error => {
+            console.error('Error fetching questions:', error);
+            alert('Fehler beim Laden der Fragen. Bitte versuche es später erneut.');
+        });
+}
 
 
 function getCurrentQuestion(){
