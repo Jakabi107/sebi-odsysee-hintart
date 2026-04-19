@@ -47,15 +47,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 async function fetchQuestions(){
+
     await fetch(questions_url)
         .then(response => response.json())
         .then(data => {
             questions = data;
+            cacheQuestions(questions_url);
         })
         .catch(error => {
             console.error('Error fetching questions:', error);
             alert('Fehler beim Laden der Fragen. Bitte versuche es später erneut.');
         });
+
 }
 
 
@@ -112,13 +115,15 @@ function onUserInputEnter(value){
 
 // --- Progress Persistence ---
 function saveProgress(){
-    localStorage.setItem('question_progress', question_progress);
+    localStorage.setItem('question_progress_' + questions_url, question_progress);
 }
 
 function loadProgress(){
-    const savedProgress = localStorage.getItem('question_progress');
+    const savedProgress = localStorage.getItem('question_progress_' + questions_url);
     if(savedProgress !== null){
         question_progress = parseInt(savedProgress, 10);
+    } else {
+        question_progress = 0;
     }
 }
 
@@ -127,3 +132,4 @@ function resetProgress(){
     saveProgress();
     displayQuestion();
 }
+
