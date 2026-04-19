@@ -65,6 +65,8 @@ const questions = {
     }
 }
 
+var questions_url = "";
+
 var question_progress = 0;
 
 var userInput;
