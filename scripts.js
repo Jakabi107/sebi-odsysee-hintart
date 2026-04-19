@@ -103,6 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     fetchQuestions()
+    loadProgress()
+    displayQuestion()
 });
 
 
@@ -111,7 +113,6 @@ function fetchQuestions(){
         .then(response => response.json())
         .then(data => {
             Object.assign(questions, data);
-            displayQuestion();
         })
         .catch(error => {
             console.error('Error fetching questions:', error);
