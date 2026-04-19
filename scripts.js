@@ -5,12 +5,15 @@ var questions_url = "https://raw.githubusercontent.com/Jakabi107/sebi-odsysee-hi
 var question_progress = 0;
 
 var userInput;
+var urlInput;
 
 // Basic JS initializer for the app container
 document.addEventListener('DOMContentLoaded', () => {
 
     // Wire up the text input
     userInput = document.getElementById('user-input');
+    // Secondary input (URL) if present
+    urlInput = document.getElementById('user-input-2');
 
     // Wire up reset button if present
     const resetBtn = document.getElementById('reset-btn');
@@ -37,13 +40,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    fetchQuestions()
-        .then(
-        () => {       
-            loadProgress(); 
-            displayQuestion()}
-    )
+    load();
 });
+
+
+async function load(){
+    await fetchQuestions();
+    loadProgress();
+    displayQuestion();
+}
 
 
 async function fetchQuestions(){
@@ -52,11 +57,10 @@ async function fetchQuestions(){
         .then(response => response.json())
         .then(data => {
             questions = data;
-            cacheQuestions(questions_url);
         })
         .catch(error => {
             console.error('Error fetching questions:', error);
-            alert('Fehler beim Laden der Fragen. Bitte versuche es später erneut.');
+            alert('Fehler beim Laden der Fragen. Bitte versuche es später erneut. Details in der Konsole.');
         });
 
 }

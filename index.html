@@ -10,6 +10,12 @@
 		<header class="site-header">
 			<h1 class="visually-hidden">Responsive Starter Page</h1>
 			<!-- Reset button placed top-right -->
+			<div class="app-input">
+
+				<input class="purple-interact" id="user-input-2" type="text" placeholder="URL" value="https://raw.githubusercontent.com/Jakabi107/sebi-odsysee-hintart/outsource-questions/questions/sebiGeburtstag.json"/>
+
+			</div>
+			<button id="confirm URL" class="reset-btn purple-interact" aria-label="Reset app">Confirm URL</button>
 			<button id="reset-btn" class="reset-btn purple-interact" aria-label="Reset app">Reset</button>
 		</header>
 
@@ -31,6 +37,8 @@
 
 			<div class="app-input">
 				<input class="purple-interact" id="user-input" type="text" placeholder="Type something here..." />
+				<!-- Secondary input matching the same design; placeholder reads 'URL' -->
+				<label for="user-input-2" class="visually-hidden">URL input</label>
 			</div>
 		</main>
 
