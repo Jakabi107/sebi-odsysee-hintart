@@ -67,12 +67,13 @@ const questions = {
 
 var question_progress = 0;
 
+var userInput;
 
 // Basic JS initializer for the app container
 document.addEventListener('DOMContentLoaded', () => {
 
     // Wire up the text input
-    const userInput = document.getElementById('user-input');
+    userInput = document.getElementById('user-input');
 
     // Wire up reset button if present
     const resetBtn = document.getElementById('reset-btn');
@@ -99,14 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-  loadProgress();
-  displayQuestion();
+    loadProgress();
+    displayQuestion();
 });
 
 
 function getCurrentQuestion(){
-  const currentQuestionKey = questions.order[question_progress];
-  return questions[currentQuestionKey];
+    const currentQuestionKey = questions.order[question_progress];
+    return questions[currentQuestionKey];
 }
 
 
@@ -144,8 +145,9 @@ function goToNextQuestion(){
 }
 
 
-function onUserInputEnter(userInput){
-    if (checkAnswer(userInput)) {
+function onUserInputEnter(value){
+    if (checkAnswer(value)) {
+        userInput.value = '';
         goToNextQuestion();
     }
     else {
