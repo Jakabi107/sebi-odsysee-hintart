@@ -1,69 +1,4 @@
-const questions = {
-    "order":["hidden", "pole", "music", "bilderraten", "kaperung", "puzzle", "tanzen", "kryptographie", "boss",],
-
-    "pole": {
-        "title": "Speedrunknowledge",
-        "text": "Wie geißt der Mond den Mann nach der Kaperung folgenden Objektes als nächstes erhält?",
-        "image": "pole.jpg",
-        "answer": "Bankfreundschaft"
-    },
-
-    "music": {
-        "title": "Jump up in your Bed!",
-        "text": "Wo hört man eine man eine \"Spielbox\" Version von Jump up Superstar?",
-        "image": "music.jpg",
-        "answer": "Globus"
-    },
-
-    "bilderraten": {
-        "title": "Bilderraten",
-        "text": "Im Küstenland - gehe zur Subarea welche folgender Tipp daarstellt. Das Lösungswort ist dort zu Haufen vorhanden. Es beginnt mit N.",
-        "image": "rocket.jpg",
-        "answer": "Nebel"
-    },
-
-    "kaperung":{
-        "title": "Beste Kaperung",
-        "text": "Nenne die Nummer der objektiv besten Kapernung im Spiel",
-        "answer": "52",
-        "image": "dino.jpg",
-    },
-
-    "puzzle":{
-        "title": "Puzzle",
-        "text": "2. Buchstabe des Mondes;). https://puzzel.org/en/jigsaw/play?p=-OqWO0eUc5ztu_yoMBBn",
-        "answer": "darf",
-        "image": "puzzle.jpg"
-    },
-
-    "boss":{
-        "title": "Lieblings - Boss",
-        "text": "2. Name des Königreichs in welchem dieser Boss zu finden ist.",
-        "answer": "Pilz-Palast",
-        "image": "boss.jpg"
-    },
-
-    "kryptographie":{
-        "title": "Kryptographie",
-        "text": "Youtube: 1-2 14-2 14-6 hier an diesem Ort (Bild)?",
-        "answer": "Pauline",
-        "image": "kryptographie.jpg"
-    },
-
-    "tanzen":{
-        "title": "Tanzen",
-        "text": "Tanze mit dem Dude hier. Lösungswort ist ürbigens: \"Sebibri stinkt\". Willst du den armen wirklich alleine tanzen lassen? Es ist so traurig :(",
-        "answer": "Sebibri stinkt",
-        "image": "tanzen.jpg"
-    },
-
-    "hidden":{
-        "title": "Hide n' Seek",
-        "text": "Welche Kaperung ist hier?",
-        "answer": "Piekmatz",
-        "image": "secret.jpg"
-    }
-}
+var questions = {}
 
 var questions_url = "https://raw.githubusercontent.com/Jakabi107/sebi-odsysee-hintart/outsource-questions/questions/sebiGeburtstag.json"
 
@@ -103,16 +38,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     fetchQuestions()
-    loadProgress()
-    displayQuestion()
+        .then(
+        () => {       
+            loadProgress(); 
+            displayQuestion()}
+    )
 });
 
 
-function fetchQuestions(){
-    fetch(questions_url)
+async function fetchQuestions(){
+    await fetch(questions_url)
         .then(response => response.json())
         .then(data => {
-            Object.assign(questions, data);
+            questions = data;
         })
         .catch(error => {
             console.error('Error fetching questions:', error);
