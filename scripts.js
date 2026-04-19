@@ -33,8 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (confirmUrlBtn) {
         confirmUrlBtn.addEventListener('click', (e) => {
+            var oldUrl = questions_url;
             questions_url = urlInput.value;
-            load();
+            load().then(success => {
+                if(!success){
+                    questions_url = oldUrl;
+                }
+            });
         });
     }
 
@@ -54,22 +59,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 async function load(){
-    await fetchQuestions();
-    loadProgress();
-    displayQuestion();
+    return await fetchQuestions().then(success => {
+        if(success){
+            loadProgress();
+            displayQuestion();
+        }
+        return success;
+    });
 }
-
 
 async function fetchQuestions(){
 
-    await fetch(questions_url)
+    return await fetch(questions_url)
         .then(response => response.json())
         .then(data => {
             questions = data;
+            return true;
         })
         .catch(error => {
             console.error('Error fetching questions:', error);
-            alert('Fehler beim Laden der Fragen. Bitte versuche es später erneut. Details in der Konsole.');
+            alert('Fehler beim Laden der Fragen. Bitte überprüfe die URL und versuche es erneut. Details in der Konsole.');
+            return false;
         });
 
 }
