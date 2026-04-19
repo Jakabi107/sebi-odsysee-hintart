@@ -87,6 +87,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // Handle Enter key presses: log and emit a custom event on the app root
+    // Wire up reset button if present
+    const resetBtn = document.getElementById('reset-btn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', (e) => {
+            console.log('reset-btn: clicked');
+            // Clear and focus the input if present
+            if (window.App && window.App.userInput) {
+                window.App.userInput.value = '';
+                window.App.userInput.focus();
+            }
+            resetProgress();
+        });
+    }
+    
     userInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         // Prevent any default behavior (no form present, but safe)
@@ -170,4 +184,3 @@ function resetProgress(){
     saveProgress();
     displayQuestion();
 }
-
