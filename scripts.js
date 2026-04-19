@@ -17,15 +17,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Wire up reset button if present
     const resetBtn = document.getElementById('reset-btn');
+
+    const confirmUrlBtn = document.getElementById('confirm-url');
+
     if (resetBtn) {
         resetBtn.addEventListener('click', (e) => {
-            console.log('reset-btn: clicked');
             // Clear and focus the input if present
             if (window.App && window.App.userInput) {
                 window.App.userInput.value = '';
                 window.App.userInput.focus();
             }
             resetProgress();
+        });
+    }
+
+    if (confirmUrlBtn) {
+        confirmUrlBtn.addEventListener('click', (e) => {
+            questions_url = urlInput.value;
+            load();
         });
     }
 
