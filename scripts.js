@@ -58,7 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
     load();
 });
 
+// --- Questions from resource --- 
 
+// fetch questions and manage initiation
 async function load(){
     return await fetchQuestions().then(success => {
         if(success){
@@ -68,6 +70,7 @@ async function load(){
         return success;
     });
 }
+
 
 async function fetchQuestions(){
 
@@ -85,12 +88,11 @@ async function fetchQuestions(){
 
 }
 
-
+// --- Question loading from local ---
 function getCurrentQuestion(){
     const currentQuestionKey = questions.order[question_progress];
     return questions[currentQuestionKey];
 }
-
 
 function displayQuestion(){
     const question = getCurrentQuestion();
@@ -106,7 +108,7 @@ function displayQuestion(){
     questionImage.src = "images/" + question.image;
 }
 
-
+// --- Input Validation ---
 function checkAnswer(userAnswer){
     const question = getCurrentQuestion();
     if(!question) return false;
@@ -138,11 +140,14 @@ function onUserInputEnter(value){
 
 
 // --- Progress Persistence ---
+// save progress to localstorage 
 function saveProgress(){
     localStorage.setItem('question_progress_' + questions_url, question_progress);
 }
 
+// load progress from local storage
 function loadProgress(){
+    // name with url
     const savedProgress = localStorage.getItem('question_progress_' + questions_url);
     if(savedProgress !== null){
         question_progress = parseInt(savedProgress, 10);
