@@ -62,8 +62,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // fetch questions and manage initiation
 async function load(){
+
     return await fetchQuestions().then(success => {
         if(success){
+            
+            // reset progress if question Progress is out of bounds 
+            if (question_progress >= questions.order.length || question_progress < 0) {
+                question_progress = 0;
+                saveProgress();
+            }
+
             loadProgress();
             displayQuestion(force=true);
         }
