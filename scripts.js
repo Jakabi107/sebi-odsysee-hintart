@@ -119,7 +119,7 @@ function checkAnswer(userAnswer){
 
 function goToNextQuestion(){
     if (question_progress >= questions.order.length - 1) {
-        alert('Gewonnen - Alles gute zum geburtstag!');
+        onWinning()
         return;
     }
     question_progress++;
@@ -138,6 +138,10 @@ function onUserInputEnter(value){
     }
 }
 
+
+function onWinning(){
+    alert("Gewonnen!")
+}
 
 // --- Progress Persistence ---
 // save progress to localstorage 
