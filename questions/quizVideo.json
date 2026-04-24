@@ -1,0 +1,80 @@
+{
+    "order": [],
+    "sword": {
+        "title": "Schwert",
+        "text": "Bewohner welches Landes befinden sich auf der Spitze des Schwertes?",
+        "image": "sword.jpg",
+        "answer": "Cityland"
+    },
+
+    "hidnseek2": {
+        "title": "Hide n' Seek 2.0",
+        "text": "Ganz in der Nähe befindet sich ein Mond - welche Nummer hat dieser Mond in der Mondliste?",
+        "image": "hide-n-seek-2.jpg",
+        "answer": "1"
+    },
+
+    "spacedog": {
+        "title": "Unterwasserhund",
+        "text": "Wo lebt der Hund welcher am besten Unterwasser leben könnte?",
+        "image":"dog.jpg",
+        "answer": "Mond"
+    },
+
+    "hidnseek1": {
+        "title": "Hide n' Seek",
+        "text": "Wenn du dich bei diesem Ort umdrehst - was siehst du? Es beginnt mit G!",
+        "image": "hide-n-seek-1.jpg",
+        "answer": "Gift"
+    },
+
+    "lava-bubble": {
+        "title": "Lava Bubble Weitspringen",
+        "text": "Wie weit kommt (und erscheint) man mit der Lavabubble?",
+        "image": "bubble.jpg",
+        "answer": "2"
+    },
+    
+    "compass": {
+        "title": "Navigation",
+        "text": "Unter welchem Objekt befindet sich in Mario Odyssey ein Kompass?",
+        "image": "compass.jpg",
+        "answer": "Karte"
+    },
+    
+    "subscribe": {
+        "title": "WICHTIGSTE AUFGABE!",
+        "text": "Abonniere den Kanal Sebibri! Was steht dort dann?",
+        "image": "subscribe.jpg",
+        "answer": "TODO"
+    },
+
+    "read": {
+        "title": "Der belesene Boss",
+        "text": "Auf den Karten von Mario Odyssey stehen kleinen Zeitungsartikel - welchem Buchstaben ähnelt die Manchmal-Brücke?",
+        "image": "newspaper.jpg",
+        "answer": "m"
+    },
+
+    "music": {
+        "title": "Erfrischende Musik",
+        "text": "Track 24 - Dort wo diese Musik gespielt wird - was ist dort die Hauptattraktion?",
+        "image": "music.jpg",
+        "answer": "Pool"
+    },
+
+    "wordl": {
+        "title": "Klassisches Worträtsel",
+        "text": "Wer mag das Lösungswort besonders gern? https://wordly.org/de?challenge=YXBmZWw",
+        "image": "rooftop.jpg",
+        "answer": "Yoshie"
+    },
+
+    "driving": {
+        "title": "Führerscheinprüfung in NDC",
+        "text": "Mario fährt seit Ewigkeiten ohne Führerschein Roller - nun soll sich das ändern. Starte von diesem Punkt aus und fahre nach STVO solange bis du ein Ende der Straße erreichst - wie heißt die Straße?",
+        "image": "drive.jpg",
+        "answer": "TODO"
+    }
+
+}
