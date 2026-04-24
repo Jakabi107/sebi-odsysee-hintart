@@ -1,5 +1,5 @@
 {
-    "order": [],
+    "order": ["sword", "hidnseek2", "spacedog", "hidnseek1", "lava-bubble", "compass", "subscribe", "read", "music", "wordl", "driving"],
     "sword": {
         "title": "Schwert",
         "text": "Bewohner welches Landes befinden sich auf der Spitze des Schwertes?",
