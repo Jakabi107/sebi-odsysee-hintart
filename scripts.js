@@ -65,14 +65,15 @@ async function load(){
 
     return await fetchQuestions().then(success => {
         if(success){
-            
+            loadProgress();
+
             // reset progress if question Progress is out of bounds 
             if (question_progress >= questions.order.length || question_progress < 0) {
                 question_progress = 0;
                 saveProgress();
+                console.warn("Question progress was out of bounds, resetting to 0.");
             }
-
-            loadProgress();
+            
             displayQuestion(force=true);
         }
         return success;
