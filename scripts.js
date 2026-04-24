@@ -65,7 +65,7 @@ async function load(){
     return await fetchQuestions().then(success => {
         if(success){
             loadProgress();
-            displayQuestion();
+            displayQuestion(force=true);
         }
         return success;
     });
@@ -90,14 +90,25 @@ async function fetchQuestions(){
 
 // --- Question loading from local ---
 function getCurrentQuestion(){
+    // manage out of bounds
+    if (question_progress >= questions.order.length || question_progress < 0) {
+        return null;
+    }
     const currentQuestionKey = questions.order[question_progress];
     return questions[currentQuestionKey];
 }
 
-function displayQuestion(){
-    const question = getCurrentQuestion();
-    if(!question) return;
-
+function displayQuestion(force=false){
+    var question = getCurrentQuestion();
+    if(!question) {
+        if (!force) return;
+        question = {
+            title: "Error",
+            text: "Es konnten keine Fragen geladen werden. Die gegebene Fragen Datei scheint Probleme zu haben. Probiere Reset zu drücken und überprüfe das File. ",
+            image: ""
+        }
+    }
+    
     const questionTitle = document.getElementById('question-title');
     questionTitle.textContent = question.title;
 
