@@ -123,9 +123,13 @@ function displayQuestion(force=false){
 
     const questionText = document.getElementById('question-text');
     questionText.textContent = question.text;
-
+    
     const questionImage = document.getElementById('question-image');
-    questionImage.src = "images/" + question.image;
+    if (question.imageExternal) {
+        questionImage.src = question.image;
+    } else {
+        questionImage.src = "images/" + question.image;
+    }
 }
 
 // --- Input Validation ---
