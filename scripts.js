@@ -37,9 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
             var oldUrl = questions_url;
             questions_url = urlInput.value;
             load().then(success => {
-                if(!success){
-                    questions_url = oldUrl;
-                }
+                // if unseccessful, revert url and alert user
+                if(!success)questions_url = oldUrl;
             });
         });
     }
@@ -55,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    questions_url = urlInput.value;
+    questions_url = urlInput.value; 
     load();
 });
 
@@ -76,6 +75,9 @@ async function load(){
             }
             
             displayQuestion(force=true);
+            
+            // successfully loaded, so add to recent urls
+            addCurrentURLToRecent();
         }
         return success;
     });
@@ -193,9 +195,18 @@ function resetProgress(){
 }
 
 
+function addCurrentURLToRecent(){
+    if (!recent_questions_urls.includes(questions_url)) {
+        recent_questions_urls.push(questions_url);
+        saveURLs();
+    }
+}
+
+
 function saveURLs(){
     localStorage.setItem('questions_url', JSON.stringify(recent_questions_urls));
 }
+
 
 function loadURL(){
     const savedUrls = localStorage.getItem('questions_url');
