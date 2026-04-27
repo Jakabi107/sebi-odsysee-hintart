@@ -73,9 +73,9 @@
 
     "driving": {
         "title": "Führerscheinprüfung in NDC",
-        "text": "Mario fährt seit Ewigkeiten ohne Führerschein Roller - nun soll sich das ändern. Starte von diesem Punkt aus und fahre nach STVO solange bis du ein Ende der Straße erreichst - wie heißt die Straße?",
+        "text": "Mario fährt seit Ewigkeiten ohne Führerschein Roller - nun soll sich das ändern. Starte von diesem Punkt aus und fahre nach STVO solange bis du ein Ende der Straße erreichst - wie heißt die Straße (ohne St.)?",
         "image": "drive.jpg",
-        "answer": "TODO"
+        "answer": "Rattley"
     }
 
 }
