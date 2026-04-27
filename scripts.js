@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     select = document.getElementById('header-select');
 
     // Load recent URLs and set the input value if possible
+    loadLastURL();
     questions_url = urlInput.value; 
     loadURLs();
     // load questions from url
@@ -93,6 +94,7 @@ async function load(){
 
             // successfully loaded, so add to recent urls
             addCurrentURLToRecent();
+            saveLastURL();
         }
         return success;
     });
@@ -247,4 +249,18 @@ function addRecentURLsToSelect(){
         option.textContent = urlToName(url);
         select.appendChild(option);
     });
+}
+
+
+function saveLastURL(){
+    localStorage.setItem('last_questions_url', questions_url);
+}
+
+
+function loadLastURL(){
+    const lastUrl = localStorage.getItem('last_questions_url');
+    if(lastUrl){
+        questions_url = lastUrl;
+        urlInput.value = questions_url;
+    }
 }
