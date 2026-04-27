@@ -55,8 +55,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (select) {
         // Populate the select with recent URLs
-        
-        
+        select.addEventListener('change', (e) => {
+            const selectedUrl = e.target.value;
+            urlInput.value = selectedUrl;
+        });
     }
 
     // Handle Enter key presses: log and emit a custom event on the app root
