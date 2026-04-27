@@ -3,7 +3,7 @@ var questions = {}
 var questions_url = ""
 var recent_questions_urls = []
 
-var question_progress = 0;
+var question_progress = Progress(0);
 
 var userInput;
 var urlInput;
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addRecentURLsToSelect();
 
     // load questions from url
-    load();
+    loadFrom(questions_url);
 
     // -- event listeners ---
     if (resetBtn) {
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmUrlBtn.addEventListener('click', (e) => {
             var oldUrl = questions_url;
             questions_url = urlInput.value;
-            load().then(success => {
+            loadFrom(questions_url).then(success => {
                 // if unseccessful, revert url and alert user
                 if(!success)questions_url = oldUrl;
             });
@@ -85,16 +85,17 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- Questions from resource --- 
 
 // fetch questions and manage initiation
-async function load(){
+async function loadFrom(url){
 
-    return await fetchQuestions().then(success => {
-        if(success){
-            loadProgress();
+    return await fetchQuestionsFrom(url).then(result => {
+        if(result.success){
 
+            questions = result.questions;
+
+            Progress.loadFor(url);
             // reset progress if question Progress is out of bounds 
-            if (question_progress >= questions.order.length || question_progress < 0) {
-                question_progress = 0;
-                saveProgress();
+            if (!question_progress.isInBounds(questions.order.length)) {
+                Progress.reset();
                 console.warn("Question progress was out of bounds, resetting to 0.");
             }
             
@@ -109,18 +110,25 @@ async function load(){
 }
 
 
-async function fetchQuestions(){
+class FetchingResult {
+    constructor(success, questions = null) {
+        this.success = success;
+        this.questions = questions;
+    }
+}
 
-    return await fetch(questions_url)
+
+async function fetchQuestionsFrom(url){
+
+    return await fetch(url)
         .then(response => response.json())
         .then(data => {
-            questions = data;
-            return true;
+            return new FetchingResult(true, data);
         })
         .catch(error => {
             console.error('Error fetching questions:', error);
             alert('Fehler beim Laden der Fragen. Bitte überprüfe die URL und versuche es erneut. Details in der Konsole.');
-            return false;
+            return new FetchingResult(false);
         });
 
 }
@@ -128,15 +136,17 @@ async function fetchQuestions(){
 // --- Question loading from local ---
 function getCurrentQuestion(){
     // manage out of bounds
-    if (question_progress >= questions.order.length || question_progress < 0) {
+    if (!question_progress.isInBounds(questions.order.length)) {
         return null;
     }
-    const currentQuestionKey = questions.order[question_progress];
+
+    const currentQuestionKey = questions.order[question_progress.get()];
     return questions[currentQuestionKey];
 }
 
 function displayQuestion(force=false){
     var question = getCurrentQuestion();
+
     if(!question) {
         if (!force) return;
         question = {
@@ -147,10 +157,10 @@ function displayQuestion(force=false){
     }
     
     const questionTitle = document.getElementById('question-title');
-    questionTitle.textContent = question.title;
+    questionTitle.textContent = question.title || "No Title";
 
     const questionText = document.getElementById('question-text');
-    questionText.textContent = question.text;
+    questionText.textContent = question.text || "No Text";
     
     const questionImage = document.getElementById('question-image');
     if (question.imageExternal) {
@@ -170,11 +180,11 @@ function checkAnswer(userAnswer){
 
 
 function goToNextQuestion(){
-    if (question_progress >= questions.order.length - 1) {
+    if (question_progress.get() >= questions.order.length - 1) {
         onWinning()
         return;
     }
-    question_progress++;
+    question_progress.inc();
     saveProgress();
     displayQuestion();
 }
@@ -198,25 +208,41 @@ function onWinning(){
 
 // --- Progress Persistence ---
 // save progress to localstorage 
-function saveProgress(){
-    localStorage.setItem('question_progress_' + questions_url, question_progress);
-}
 
-// load progress from local storage
-function loadProgress(){
-    // name with url
-    const savedProgress = localStorage.getItem('question_progress_' + questions_url);
-    if(savedProgress !== null){
-        question_progress = parseInt(savedProgress, 10);
-    } else {
-        question_progress = 0;
+class Progress {
+    constructor(currentIndex) {
+        this.currentIndex = currentIndex;
     }
-}
 
-function resetProgress(){
-    question_progress = 0;
-    saveProgress();
-    displayQuestion();
+    get(){
+        return this.currentIndex;
+    }
+
+    set(currentIndex){
+        this.currentIndex = currentIndex;
+        this.save();
+    }
+
+    inc(){
+        this.set(this.currentIndex + 1);
+    }
+
+    saveFor(url) {
+        localStorage.setItem('question_progress_' + url, this.currentIndex);
+    }
+
+    loadFor(url) {
+        const savedProgress = localStorage.getItem('question_progress_' + url);
+        this.set(parseInt(savedProgress, 10) || 0);
+    }
+
+    reset() {
+        this.set(0);
+    }
+
+    isInBounds(length) {
+        return this.currentIndex >= 0 && this.currentIndex < length;
+    }
 }
 
 
