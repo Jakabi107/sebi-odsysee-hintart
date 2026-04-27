@@ -21,6 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const confirmUrlBtn = document.getElementById('confirm-url');
 
+    // Load recent URLs and set the input value if possible
+    questions_url = urlInput.value; 
+    loadURLs();
+    // load questions from url
+    load();
+
+    // -- event listeners ---
     if (resetBtn) {
         resetBtn.addEventListener('click', (e) => {
             // Clear and focus the input if present
@@ -53,9 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
         onUserInputEnter(value);
         }
     });
-
-    questions_url = urlInput.value; 
-    load();
 });
 
 // --- Questions from resource --- 
@@ -75,7 +79,7 @@ async function load(){
             }
             
             displayQuestion(force=true);
-            
+
             // successfully loaded, so add to recent urls
             addCurrentURLToRecent();
         }
@@ -208,7 +212,7 @@ function saveURLs(){
 }
 
 
-function loadURL(){
+function loadURLs(){
     const savedUrls = localStorage.getItem('questions_url');
     if(savedUrls){
         recent_questions_urls = JSON.parse(savedUrls);
