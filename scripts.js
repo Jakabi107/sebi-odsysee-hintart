@@ -1,9 +1,135 @@
+// --- Progress Persistence ---
+
+
+// TODO issue loading
+// save progress to localstorage 
+class Progress {
+    constructor(currentIndex) {
+        this.currentIndex = currentIndex;
+        this.currentUrl;
+    }
+
+    get(){
+        return this.currentIndex;
+    }
+
+    set(currentIndex){
+        this.currentIndex = currentIndex;
+        this.save();
+    }
+
+    setUrl(url){
+        this.currentUrl = url;
+    }
+
+    inc(){
+        this.set(this.currentIndex + 1);
+    }
+
+    reset() {
+        this.set(0);
+    }
+
+    // saving and loading from localstorage
+    save(){
+        this.saveFor(this.currentUrl);
+    }
+
+    saveFor(url) {
+        localStorage.setItem('question_progress_' + url, this.currentIndex);
+    }
+
+    load() {
+        this.loadFor(this.currentUrl);
+    }
+
+    loadFor(url) {
+        const savedProgress = localStorage.getItem('question_progress_' + url);
+        this.set(parseInt(savedProgress, 10) || 0);
+    }
+
+    isInBounds(length) {
+        return this.currentIndex >= 0 && this.currentIndex < length;
+    }
+}
+
+
+class URLManager {
+    constructor() {
+        this.recentUrls = [];
+        this.currentUrl;
+        this.selectElement;
+    }
+
+    addSelectElement(selectElement) {
+        this.selectElement = selectElement;
+    }
+
+    // --- Recent URLs management ---
+    addToRecent(url) {
+        if (!this.recentUrls.includes(url)) {
+            this.recentUrls.push(url);
+            this.saveToRecent();
+        }
+        this.addRecentURLsToSelect();
+    }
+
+    saveToRecent() {
+        localStorage.setItem('recent_urls', JSON.stringify(this.recentUrls));
+    }
+
+    loadRecent() {
+        const urls = localStorage.getItem('recent_urls');
+        if (urls)
+            {
+            this.recentUrls = JSON.parse(urls);
+        }
+    }
+
+    addRecentURLsToSelect(selectElement = this.selectElement) {
+        if (!selectElement) return;
+        selectElement.innerHTML = "";
+        this.recentUrls.forEach(url => {
+            const option = document.createElement('option');
+            option.value = url;
+            option.textContent = this.urlToName(url);
+            selectElement.appendChild(option);
+        });
+    }
+
+    urlToName(url){
+        return url.split('/').pop();
+    }   
+
+    // --- Current URL management ---
+    setCurrent(url) {
+        this.currentUrl = url;
+        this.addToRecent(url);
+        this.saveCurrentUrl();
+    }
+
+    getCurrent() {
+        return this.currentUrl;
+    }
+    
+    saveCurrentUrl() {
+        localStorage.setItem('current_url', this.currentUrl);
+    }
+
+    loadCurrentUrl() {
+        const url = localStorage.getItem('current_url');
+        if (url) {
+            this.currentUrl = url;
+        } 
+    }
+}
+
+
 var questions = {}
 
-var questions_url = ""
-var recent_questions_urls = []
+var urlManager = new URLManager();
 
-var question_progress = Progress(0);
+var question_progress = new Progress(0);
 
 var userInput;
 var urlInput;
@@ -22,55 +148,42 @@ document.addEventListener('DOMContentLoaded', () => {
     select = document.getElementById('header-select');
 
     // -- Load recent URLs and set the input value if possible --
-    var loadedUrl = loadLastURL();
-
-    if (loadedUrl) {
-        urlInput.value = loadedUrl;
-        questions_url = loadedUrl;
+    urlManager.addSelectElement(select);
+    urlManager.loadRecent();
+    urlManager.loadCurrentUrl();
+    if (urlManager.getCurrent()) {
+        urlInput.value = urlManager.getCurrent();
+    } else {
+        urlManager.setCurrent(urlInput.value);
     }
-    else questions_url =  urlInput.value
-    
-    // recent urls system
-    recent_questions_urls = loadURLs();
-    addRecentURLsToSelect();
+
+    urlManager.addRecentURLsToSelect(select);
 
     // load questions from url
-    loadFrom(questions_url);
+    loadFrom(urlManager.getCurrent());
 
     // -- event listeners ---
-    if (resetBtn) {
-        resetBtn.addEventListener('click', (e) => {
-            // add event 
-            
-            // Clear and focus the input if present
-            if (window.App && window.App.userInput) {
-                window.App.userInput.value = '';
-                window.App.userInput.focus();
-            }
-            resetProgress();
-        });
-    }
+    resetBtn.addEventListener('click', (e) => {
+        // Clear and focus the input if present
+        if (window.App && window.App.userInput) {
+            window.App.userInput.value = '';
+            window.App.userInput.focus();
+        }
 
-    if (confirmUrlBtn) {
-        confirmUrlBtn.addEventListener('click', (e) => {
-            var oldUrl = questions_url;
-            questions_url = urlInput.value;
-            loadFrom(questions_url).then(success => {
-                // if unseccessful, revert url and alert user
-                if(!success)questions_url = oldUrl;
-            });
-        });
-    }
+        question_progress.reset();
+        displayQuestion();
+    });
 
-    if (select) {
-        // Populate the select with recent URLs
-        select.addEventListener('change', (e) => {
-            const selectedUrl = e.target.value;
-            urlInput.value = selectedUrl;
-        });
-    }
+    confirmUrlBtn.addEventListener('click', (e) => {
+        loadFrom(urlInput.value);
+    });
+    
+    // Populate the select with recent URLs
+    select.addEventListener('change', (e) => {
+        const selectedUrl = e.target.value;
+        urlInput.value = selectedUrl;
+    });
 
-    // Handle Enter key presses: log and emit a custom event on the app root
     userInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             // Prevent any default behavior (no form present, but safe)
@@ -89,23 +202,21 @@ async function loadFrom(url){
 
     return await fetchQuestionsFrom(url).then(result => {
         if(result.success){
-
             questions = result.questions;
 
-            Progress.loadFor(url);
+            question_progress.setUrl(url);
+            question_progress.loadFor(url);
             // reset progress if question Progress is out of bounds 
             if (!question_progress.isInBounds(questions.order.length)) {
-                Progress.reset();
+                question_progress.reset();
                 console.warn("Question progress was out of bounds, resetting to 0.");
             }
             
             displayQuestion(force=true);
-
             // successfully loaded, so add to recent urls
-            addCurrentURLToRecent();
-            saveLastURL();
+            urlManager.setCurrent(url);
         }
-        return success;
+        return result.success;
     });
 }
 
@@ -116,7 +227,6 @@ class FetchingResult {
         this.questions = questions;
     }
 }
-
 
 async function fetchQuestionsFrom(url){
 
@@ -185,7 +295,6 @@ function goToNextQuestion(){
         return;
     }
     question_progress.inc();
-    saveProgress();
     displayQuestion();
 }
 
@@ -206,93 +315,3 @@ function onWinning(){
 }
 // --- Saving --- 
 
-// --- Progress Persistence ---
-// save progress to localstorage 
-
-class Progress {
-    constructor(currentIndex) {
-        this.currentIndex = currentIndex;
-    }
-
-    get(){
-        return this.currentIndex;
-    }
-
-    set(currentIndex){
-        this.currentIndex = currentIndex;
-        this.save();
-    }
-
-    inc(){
-        this.set(this.currentIndex + 1);
-    }
-
-    saveFor(url) {
-        localStorage.setItem('question_progress_' + url, this.currentIndex);
-    }
-
-    loadFor(url) {
-        const savedProgress = localStorage.getItem('question_progress_' + url);
-        this.set(parseInt(savedProgress, 10) || 0);
-    }
-
-    reset() {
-        this.set(0);
-    }
-
-    isInBounds(length) {
-        return this.currentIndex >= 0 && this.currentIndex < length;
-    }
-}
-
-
-function addCurrentURLToRecent(){
-    if (!recent_questions_urls.includes(questions_url)) {
-        recent_questions_urls.push(questions_url);
-        saveURLs();
-    }
-}
-
-
-function saveURLs(){
-    localStorage.setItem('questions_url', JSON.stringify(recent_questions_urls));
-    addRecentURLsToSelect();
-}
-
-
-function loadURLs(){
-    localStorage.getItem('questions_url');
-    var urls = localStorage.getItem('questions_url');
-    if (urls) {
-        urls = JSON.parse(urls);
-    }
-    return urls;
-}
-
-
-function urlToName(url){
-    return url.split('/').pop();
-}
-
-
-function addRecentURLsToSelect(){
-    select.innerHTML = ""
-
-    recent_questions_urls.forEach(url => {
-        const option = document.createElement('option');
-        option.value = url;
-        option.textContent = urlToName(url);
-        select.appendChild(option);
-    });
-}
-
-
-function saveLastURL(){
-    localStorage.setItem('last_questions_url', questions_url);
-}
-
-
-function loadLastURL(){
-    const lastUrl = localStorage.getItem('last_questions_url');
-    return lastUrl;
-}
