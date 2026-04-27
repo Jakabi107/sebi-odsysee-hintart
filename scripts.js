@@ -7,6 +7,7 @@ var question_progress = 0;
 
 var userInput;
 var urlInput;
+var select;
 
 // Basic JS initializer for the app container
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,6 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetBtn = document.getElementById('reset-btn');
 
     const confirmUrlBtn = document.getElementById('confirm-url');
+
+    select = document.getElementById('header-select');
 
     // Load recent URLs and set the input value if possible
     questions_url = urlInput.value; 
@@ -48,6 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(!success)questions_url = oldUrl;
             });
         });
+    }
+
+    if (select) {
+        // Populate the select with recent URLs
+        
+        
     }
 
     // Handle Enter key presses: log and emit a custom event on the app root
@@ -209,6 +218,7 @@ function addCurrentURLToRecent(){
 
 function saveURLs(){
     localStorage.setItem('questions_url', JSON.stringify(recent_questions_urls));
+    addRecentURLsToSelect();
 }
 
 
@@ -217,4 +227,22 @@ function loadURLs(){
     if(savedUrls){
         recent_questions_urls = JSON.parse(savedUrls);
     }
+    addRecentURLsToSelect();
+}
+
+
+function urlToName(url){
+    return url.split('/').pop();
+}
+
+
+function addRecentURLsToSelect(){
+    select.innerHTML = ""
+
+    recent_questions_urls.forEach(url => {
+        const option = document.createElement('option');
+        option.value = url;
+        option.textContent = urlToName(url);
+        select.appendChild(option);
+    });
 }
