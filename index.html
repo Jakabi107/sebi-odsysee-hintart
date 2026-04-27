@@ -8,13 +8,21 @@
 	</head>
 	<body>
 		<header class="site-header">
-			<h1 class="visually-hidden">Responsive Starter Page</h1>
-			<!-- Reset button placed top-right -->
+
 			<div class="app-input">
 
 				<input class="purple-interact" id="user-input-2" type="text" placeholder="URL" value="https://raw.githubusercontent.com/Jakabi107/sebi-odsysee-hintart/main/questions/sebiGeburtstag.json"/>
 
 			</div>
+
+			<div class="header-left-controls">
+				<label for="header-select" class="visually-hidden">Choose an option</label>
+				<select id="header-select" class="header-select purple-interact">
+					<option value="main">Main</option>
+					<option value="alt">Alternate</option>
+				</select>
+			</div>
+			
 			<button id="confirm-url" class="reset-btn purple-interact" aria-label="Reset app">Confirm URL</button>
 			<button id="reset-btn" class="reset-btn purple-interact" aria-label="Reset app">Reset</button>
 		</header>

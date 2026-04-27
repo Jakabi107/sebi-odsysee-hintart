@@ -28,7 +28,7 @@ body{
   margin:0 auto 1rem;
   padding:0 1.25rem;
   display:flex;
-  justify-content:flex-end;
+  justify-content: flex-end;
   align-items:center;
 }
 
@@ -44,6 +44,22 @@ body{
 
 .purple-interact:hover{ color:var(--accent); border-color:rgba(124,58,237,0.5) }
 .purple-interact:focus{ outline:2px solid rgba(124,58,237,0.25); box-shadow:0 0 0 4px rgba(124,58,237,0.06) }
+
+/* Header select styled like buttons */
+.header-select{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background:transparent;
+  color:var(--muted);
+  border:1px solid rgba(255,255,255,0.04);
+  padding:0.4rem 0.6rem;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:0.95rem;
+}
+.header-select:hover{ color:var(--accent); border-color:rgba(124,58,237,0.5) }
+.header-left-controls{ display:flex; align-items:center; gap:0.75rem }
 
 .container{
   width:100%;
