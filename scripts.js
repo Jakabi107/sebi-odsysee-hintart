@@ -7,33 +7,41 @@ var question_progress = 0;
 
 var userInput;
 var urlInput;
+var resetBtn;
+var confirmUrlBtn;
 var select;
 
 // Basic JS initializer for the app container
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Wire up the text input
+    // -- wiring up DOM elements ---
     userInput = document.getElementById('user-input');
-    // Secondary input (URL) if present
     urlInput = document.getElementById('user-input-2');
-
-    // Wire up reset button if present
-    const resetBtn = document.getElementById('reset-btn');
-
-    const confirmUrlBtn = document.getElementById('confirm-url');
-
+    resetBtn = document.getElementById('reset-btn');
+    confirmUrlBtn = document.getElementById('confirm-url');
     select = document.getElementById('header-select');
 
-    // Load recent URLs and set the input value if possible
-    loadLastURL();
-    questions_url = urlInput.value; 
-    loadURLs();
+    // -- Load recent URLs and set the input value if possible --
+    var loadedUrl = loadLastURL();
+
+    if (loadedUrl) {
+        urlInput.value = loadedUrl;
+        questions_url = loadedUrl;
+    }
+    else questions_url =  urlInput.value
+    
+    // recent urls system
+    recent_questions_urls = loadURLs();
+    addRecentURLsToSelect();
+
     // load questions from url
     load();
 
     // -- event listeners ---
     if (resetBtn) {
         resetBtn.addEventListener('click', (e) => {
+            // add event 
+            
             // Clear and focus the input if present
             if (window.App && window.App.userInput) {
                 window.App.userInput.value = '';
@@ -65,11 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle Enter key presses: log and emit a custom event on the app root
     userInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-        // Prevent any default behavior (no form present, but safe)
-        e.preventDefault();
-        const value = e.target.value;
-        
-        onUserInputEnter(value);
+            // Prevent any default behavior (no form present, but safe)
+            e.preventDefault();
+            const value = e.target.value;
+            
+            onUserInputEnter(value);
         }
     });
 });
@@ -227,11 +235,12 @@ function saveURLs(){
 
 
 function loadURLs(){
-    const savedUrls = localStorage.getItem('questions_url');
-    if(savedUrls){
-        recent_questions_urls = JSON.parse(savedUrls);
+    localStorage.getItem('questions_url');
+    var urls = localStorage.getItem('questions_url');
+    if (urls) {
+        urls = JSON.parse(urls);
     }
-    addRecentURLsToSelect();
+    return urls;
 }
 
 
@@ -259,8 +268,5 @@ function saveLastURL(){
 
 function loadLastURL(){
     const lastUrl = localStorage.getItem('last_questions_url');
-    if(lastUrl){
-        questions_url = lastUrl;
-        urlInput.value = questions_url;
-    }
+    return lastUrl;
 }
