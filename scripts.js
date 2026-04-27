@@ -1,6 +1,7 @@
 var questions = {}
 
 var questions_url = ""
+var recent_questions_urls = []
 
 var question_progress = 0;
 
@@ -166,6 +167,7 @@ function onUserInputEnter(value){
 function onWinning(){
     alert("Gewonnen!")
 }
+// --- Saving --- 
 
 // --- Progress Persistence ---
 // save progress to localstorage 
@@ -190,3 +192,14 @@ function resetProgress(){
     displayQuestion();
 }
 
+
+function saveURLs(){
+    localStorage.setItem('questions_url', JSON.stringify(recent_questions_urls));
+}
+
+function loadURL(){
+    const savedUrls = localStorage.getItem('questions_url');
+    if(savedUrls){
+        recent_questions_urls = JSON.parse(savedUrls);
+    }
+}
